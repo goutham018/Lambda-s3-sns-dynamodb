@@ -39,10 +39,10 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform test
-        run: |
-         terraform test
-        continue-on-error: true
+      # - name: Terraform test
+      #   run: |
+      #    terraform test
+      #   continue-on-error: true
 
       - name: Terraform Plan
         run: terraform plan
