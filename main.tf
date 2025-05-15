@@ -1,0 +1,33 @@
+
+module "sns" {
+  source     = "./modules/sns"
+  topic_name = "file-upload-notifications"
+}
+
+module "dynamodb" {
+  source     = "./modules/dynamodb"
+  table_name = "s3_upload_logs"
+}
+
+module "iam" {
+  source         = "./modules/iam"
+  role_name      = "lambda_exec_role"
+  dynamodb_arn   = module.dynamodb.dynamodb_arn
+  sns_topic_arn  = module.sns.topic_arn
+}
+
+module "lambda" {
+  source           = "./modules/lambda"
+  lambda_name      = "s3-file-logger"
+  lambda_zip       = "./lambda/lambda_function.zip"
+  lambda_role_arn  = module.iam.lambda_role_arn
+  dynamodb_table   = module.dynamodb.table_name
+  sns_topic_arn    = module.sns.topic_arn
+  bucket_arn       = module.s3.bucket_arn
+}
+
+module "s3" {
+  source      = "./modules/s3"
+  bucket_name = "my-upload-bucket"
+  lambda_arn  = module.lambda.lambda_arn
+}
