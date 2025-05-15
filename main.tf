@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-  
-}
 module "sns" {
   source        = "./modules/sns"
   topic_name    = "file-upload-notifications"
