@@ -5,7 +5,7 @@ provider "aws" {
 module "sns" {
   source        = "./modules/sns"
   topic_name    = "file-upload-notifications"
-  email_address = "gouthamr522@gmail.com"  # Change this
+  email_address = "gouthamr@hcltech.com"  # Change this
 }
 
 
